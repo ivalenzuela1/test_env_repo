@@ -10,6 +10,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+       - name: Build Project
+         working-directory: env_test_app
+         run: npm run build
 
   deploy_dev:
     runs-on: ubuntu-latest
