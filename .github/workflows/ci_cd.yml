@@ -1,8 +1,6 @@
 name: CI + CD
 
 on:
-#  push:
-#    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -11,9 +9,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-       - name: Build Project
-         working-directory: env_test_app
-         run: npm run build
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.17.0'
+
+      - name: Install Dependencies
+        working-directory: env_test_app
+        run: npm install
+
+      - name: Build Project
+        working-directory: env_test_app
+        run: npm run build
 
   deploy_dev:
     runs-on: ubuntu-latest
@@ -23,18 +33,6 @@ jobs:
       name: DEV
       url: http://dev.myapp.com
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Deploy # Name of the step
+        run: echo I am deploying! # Run a shell command to print "I am deploying!"
         
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18.17.0'
-          
-      - name: Install Dependencies
-        working-directory: env_test_app
-        run: npm install
-        
-      - name: Build Project
-        working-directory: env_test_app
-        run: npm run build
