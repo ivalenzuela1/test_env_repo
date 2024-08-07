@@ -1,46 +1,40 @@
 name: CI + CD
 
 on:
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Compile
-        run: echo Hello, world!
+       - name: Build Project
+         working-directory: env_test_app
+         run: npm run build
 
-  DeployDev:
-    name: Deploy to Dev
-    if: github.event_name == 'pull_request'
-    needs: [Build]
+  deploy_dev:
     runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request'
     environment:
       name: DEV
-      url: 'http://dev.myapp.com'
+      url: http://dev.myapp.com
     steps:
-      - name: Deploy
-        run: echo I am deploying!
-        
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
-
+        
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "18.17.0" # specify the required Node.js version
-
-      - name: Install dependencies
-        run: |
-          cd env_test_app
-          npm install
-
-      - name: Build project
-        run: |
-          cd env_test_app
-          npm run build
+          node-version: '18.17.0'
+          
+      - name: Install Dependencies
+        working-directory: env_test_app
+        run: npm install
+        
+      - name: Build Project
+        working-directory: env_test_app
+        run: npm run build
