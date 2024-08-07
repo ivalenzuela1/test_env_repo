@@ -1,0 +1,37 @@
+name: DEV
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # specify the Node.js version you are using
+
+      - name: List directory contents
+        run: ls -la
+
+      - name: Install dependencies
+        run: |
+          cd env_test_app
+          npm install
+
+      - name: Build project
+        run: |
+          cd env_test_app
+          npm run build
+
+      - name: Run tests
+        run: |
+          cd env_test_app
+          npm test
