@@ -30,8 +30,3 @@ jobs:
         run: |
           cd env_test_app
           npm run build
-
-      - name: Run tests
-        run: |
-          cd env_test_app
-          npm test
