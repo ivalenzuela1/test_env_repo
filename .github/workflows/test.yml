@@ -16,12 +16,12 @@ jobs:
   echo-env-variable:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo the TEST environment variable based on selected ENV
+      - name: Set TEST variable based on selected ENV
         run: |
           if [ "${{ github.event.inputs.Env }}" == "DEV" ]; then
-            echo "TEST=${{ github.vars.TEST }}" >> $GITHUB_ENV
+            TEST="${{ vars.TEST }}"
           elif [ "${{ github.event.inputs.Env }}" == "PROD" ]; then
-            echo "TEST=${{ github.vars.TEST }}" >> $GITHUB_ENV
+            TEST="${{ vars.TEST }}"
           else
             echo "Invalid ENV value"
             exit 1
