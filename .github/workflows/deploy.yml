@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: DEV  # Link to the environment where TEST is defined
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
