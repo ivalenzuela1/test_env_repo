@@ -42,7 +42,7 @@ jobs:
     if: github.event_name == 'pull_request'
     environment: DEV  # This links the job to the DEV environment
     env:
-      TEST: ${{ env.TEST }}  # Ensure the TEST variable is set correctly
+      TEST: ${{ env.TEST }}  # Ensure the TEST variable is set correctly!
     steps:
       - name: Echo TEST Value in DEV
         run: echo "Deploying to DEV environment with TEST value $TEST"
