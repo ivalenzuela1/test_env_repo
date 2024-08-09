@@ -27,14 +27,14 @@ jobs:
 
       - name: Echo TEST Value
         working-directory: env_test_app
-        run: echo 'TEST value is $TEST'
+        run: echo "TEST value is $TEST"
         env:
-          TEST: ${{ secrets.TEST }}  # Use the TEST environment variable
+          TEST: ${{ secrets.TEST }}
 
       - name: Build Project
         working-directory: env_test_app
         env:
-          TEST: ${{ secrets.TEST }}  # Use the TEST environment variable
+          TEST: ${{ secrets.TEST }}
         run: npm run build
 
   deploy_dev:
@@ -46,7 +46,7 @@ jobs:
       url: http://dev.myapp.com
     steps:
       - name: Echo TEST Value in DEV
-        run: echo "Deploying to DEV environment with TEST value ${{secrets.TEST}}"
+        run: echo "Deploying to DEV environment with TEST value $TEST"
         env:
           TEST: ${{ secrets.TEST }}
 
@@ -64,7 +64,7 @@ jobs:
       url: http://prod.myapp.com
     steps:
       - name: Echo TEST Value in PROD
-        run: echo 'Deploying to PROD environment with TEST value ${{secrets.TEST}}'
+        run: echo "Deploying to PROD environment with TEST value $TEST"
         env:
           TEST: ${{ secrets.TEST }}
 
