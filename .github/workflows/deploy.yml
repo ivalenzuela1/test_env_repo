@@ -1,0 +1,74 @@
+name: CI + CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.17.0'
+
+      - name: Install Dependencies
+        working-directory: env_test_app
+        run: npm install
+
+      - name: Echo TEST Value
+        working-directory: env_test_app
+        run: echo 'TEST value is $TEST'
+        env:
+          TEST: ${{ secrets.TEST }}  # Use the TEST environment variable
+
+      - name: Build Project
+        working-directory: env_test_app
+        env:
+          TEST: ${{ secrets.TEST }}  # Use the TEST environment variable
+        run: npm run build
+
+  deploy_dev:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request'
+    environment:
+      name: DEV
+      url: http://dev.myapp.com
+    steps:
+      - name: Echo TEST Value in DEV
+        run: echo 'Deploying to DEV environment with TEST value: $TEST'
+        env:
+          TEST: ${{ secrets.TEST }}
+
+      - name: Deploy DEV
+        run: echo 'Deploying to DEV environment'
+        env:
+          TEST: ${{ secrets.TEST }}
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: PROD
+      url: http://prod.myapp.com
+    steps:
+      - name: Echo TEST Value in PROD
+        run: echo 'Deploying to PROD environment with TEST value: $TEST'
+        env:
+          TEST: ${{ secrets.TEST }}
+
+      - name: Deploy PROD
+        run: echo 'Deploying to PROD environment'
+        env:
+          TEST: ${{ secrets.TEST }}
