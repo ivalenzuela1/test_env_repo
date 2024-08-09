@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV  # Link to the environment where TEST is defined
     env:
-      TEST: ${{ env.TEST }}  # Ensure the TEST variable is set correctly
+      TEST: ${{ env.TEST }}  # Use secrets if TEST is defined as a secret, otherwise remove this line
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
     if: github.event_name == 'pull_request'
     environment: DEV  # This links the job to the DEV environment
     env:
-      TEST: ${{ env.TEST }}  # Ensure the TEST variable is set correctly!
+      TEST: $TEST  # This ensures the TEST variable is set correctly
     steps:
       - name: Echo TEST Value in DEV
         run: echo "Deploying to DEV environment with TEST value $TEST"
@@ -56,7 +56,7 @@ jobs:
     if: github.event_name == 'push'
     environment: PROD  # This links the job to the PROD environment
     env:
-      TEST: ${{ env.TEST }}  # Ensure the TEST variable is set correctly
+      TEST: $TEST  # This ensures the TEST variable is set correctly
     steps:
       - name: Echo TEST Value in PROD
         run: echo "Deploying to PROD environment with TEST value $TEST"
