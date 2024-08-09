@@ -19,13 +19,13 @@ jobs:
       - name: Set TEST variable based on selected ENV
         run: |
           if [ "${{ github.event.inputs.Env }}" == "DEV" ]; then
-            echo "TEST=${{ secrets.DEV_TEST }}" >> $GITHUB_ENV
+            echo "TEST=${{ vars.DEV_TEST }}" >> $GITHUB_ENV
           elif [ "${{ github.event.inputs.Env }}" == "PROD" ]; then
-            echo "TEST=${{ secrets.PROD_TEST }}" >> $GITHUB_ENV
+            echo "TEST=${{ vars.PROD_TEST }}" >> $GITHUB_ENV
           else
             echo "Invalid ENV value"
             exit 1
           fi
 
       - name: Echo the TEST environment variable
-        run: echo "TEST variable value: $TEST"
+        run: echo "TEST variable value $TEST"
