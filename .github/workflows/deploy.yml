@@ -13,8 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: DEV  # Link to the environment where TEST is defined
-    env:
-      TEST: $TEST  # Use secrets if TEST is defined as a secret, otherwise remove this line
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -30,36 +28,44 @@ jobs:
 
       - name: Echo TEST Value
         working-directory: env_test_app
-        run: echo "TEST value is $TEST"
+        run: echo "TEST value is ${TEST}"
+        env:
+          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Build Project
         working-directory: env_test_app
         run: npm run build
+        env:
+          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
   deploy_dev:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'pull_request'
     environment: DEV  # This links the job to the DEV environment
-    env:
-      TEST: $TEST  # This ensures the TEST variable is set correctly
     steps:
       - name: Echo TEST Value in DEV
-        run: echo "Deploying to DEV environment with TEST value $TEST"
+        run: echo "Deploying to DEV environment with TEST value ${TEST}"
+        env:
+          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
+        env:
+          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
   deploy_prod:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'push'
     environment: PROD  # This links the job to the PROD environment
-    env:
-      TEST: $TEST  # This ensures the TEST variable is set correctly
     steps:
       - name: Echo TEST Value in PROD
-        run: echo "Deploying to PROD environment with TEST value $TEST"
+        run: echo "Deploying to PROD environment with TEST value ${TEST}"
+        env:
+          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Deploy PROD
         run: echo 'Deploying to PROD environment'
+        env:
+          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
