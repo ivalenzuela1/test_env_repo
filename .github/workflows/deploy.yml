@@ -27,15 +27,13 @@ jobs:
 
       - name: Echo TEST Value
         working-directory: env_test_app
-        run: echo "TEST value is $TEST"
-        env:
-          TEST: ${{ env.TEST }}
+        run: echo "TEST value is ${{ env.TEST }}"
 
       - name: Build Project
         working-directory: env_test_app
+        run: npm run build
         env:
           TEST: ${{ env.TEST }}
-        run: npm run build
 
   deploy_dev:
     runs-on: ubuntu-latest
@@ -46,9 +44,7 @@ jobs:
       url: http://dev.myapp.com
     steps:
       - name: Echo TEST Value in DEV
-        run: echo "Deploying to DEV environment with TEST value $TEST"
-        env:
-          TEST: ${{ env.TEST }}
+        run: echo "Deploying to DEV environment with TEST value ${{ env.TEST }}"
 
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
@@ -64,9 +60,7 @@ jobs:
       url: http://prod.myapp.com
     steps:
       - name: Echo TEST Value in PROD
-        run: echo "Deploying to PROD environment with TEST value $TEST"
-        env:
-          TEST: ${{ env.TEST }}
+        run: echo "Deploying to PROD environment with TEST value ${{ env.TEST }}"
 
       - name: Deploy PROD
         run: echo 'Deploying to PROD environment'
