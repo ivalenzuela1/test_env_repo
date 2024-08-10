@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21.5.0'  # Updated to use Node.js 20
+          node-version: '20.x'  # Explicitly using Node.js 20
 
       - name: Install Dependencies
         working-directory: env_test_app
