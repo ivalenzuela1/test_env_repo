@@ -75,7 +75,7 @@ jobs:
 
       - name: Build Docker image
         ## working-directory: ./env_test_app
-        run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile env_test_app --load
+        run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f ./env_test_app/Dockerfile ./env_test_app --load
         ##run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile --build-arg ENV_FILE=.env env_test_app --load 
      
       - name: Tag Docker image
