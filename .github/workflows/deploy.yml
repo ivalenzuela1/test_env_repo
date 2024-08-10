@@ -74,9 +74,8 @@ jobs:
         run: echo ${{ vars.GHCR_PAT }} | docker login ghcr.io --username ${{ vars.GHCR_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        working-directory: ../env_test_app
-        run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f Dockerfile --build-arg ENV_FILE=.env --load .
-
+        run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile --build-arg ENV_FILE=.env --load env_test_app
+     
       - name: Tag Docker image
         run: docker tag ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 ghcr.io/test_app:1.0.0
 
