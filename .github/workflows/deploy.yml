@@ -1,12 +1,12 @@
-name: CI + CD Pipeline
+name: Sample CI + CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - main2
   pull_request:
     branches:
-      - main
+      - main2
   workflow_dispatch:
 
 jobs:
