@@ -67,8 +67,8 @@ jobs:
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
-      - name: List files in the workspace
-        run: ls -alR
+      - name: List all files and directories starting from root
+        run: ls -alR /
   
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
