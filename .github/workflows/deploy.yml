@@ -30,13 +30,13 @@ jobs:
         working-directory: env_test_app
         run: echo "TEST value is ${TEST}"
         env:
-          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Build Project
         working-directory: env_test_app
         run: npm run build
         env:
-          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
   deploy_dev:
     runs-on: ubuntu-latest
@@ -47,12 +47,12 @@ jobs:
       - name: Echo TEST Value in DEV
         run: echo "Deploying to DEV environment with TEST value ${TEST}"
         env:
-          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
         env:
-          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
   deploy_prod:
     runs-on: ubuntu-latest
@@ -63,9 +63,9 @@ jobs:
       - name: Echo TEST Value in PROD
         run: echo "Deploying to PROD environment with TEST value ${TEST}"
         env:
-          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Deploy PROD
         run: echo 'Deploying to PROD environment'
         env:
-          TEST: ${{ secrets.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
