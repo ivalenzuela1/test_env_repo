@@ -28,7 +28,7 @@ jobs:
 
       - name: Echo TEST Value
         working-directory: env_test_app
-        run: echo "TEST value is ${vars.TEST}"
+        run: echo "TEST value is ${TEST}"
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
@@ -45,7 +45,7 @@ jobs:
     environment: DEV  # This links the job to the DEV environment
     steps:
       - name: Echo TEST Value in DEV
-        run: echo "Deploying to DEV environment with TEST value ${vars.TEST}"
+        run: echo "Deploying to DEV environment with TEST value ${TEST}"
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
@@ -61,7 +61,7 @@ jobs:
     environment: PROD  # This links the job to the PROD environment
     steps:
       - name: Echo TEST Value in PROD
-        run: echo "Deploying to PROD environment with TEST value ${vars.TEST}"
+        run: echo "Deploying to PROD environment with TEST value ${TEST}"
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
