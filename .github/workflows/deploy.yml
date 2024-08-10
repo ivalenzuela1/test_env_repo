@@ -50,7 +50,8 @@ jobs:
   deploy_dev:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'pull_request'
+    # if: github.event_name == 'pull_request'
+    if: ${{ github.event.inputs.Env }}" == "DEV"
     environment: DEV  # This links the job to the DEV environment
     steps:
       - name: Echo TEST Value in DEV
