@@ -8,6 +8,16 @@ on:
     branches:
       - main2
   workflow_dispatch:
+    inputs:
+      Env:
+        description: "Select environment (DEV or PROD)"
+        required: true
+        default: "DEV"
+        type: choice
+        options:
+          - DEV
+          - PROD
+  
 
 jobs:
   build:
@@ -48,6 +58,9 @@ jobs:
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
+      - name: Echo WEBSITE_ENV_DEV Value in DEV
+        run: echo "${{vars.WEBSITE_ENV_DEV }}" > .env  
+     
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
         env:
