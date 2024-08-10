@@ -18,6 +18,7 @@ on:
           - DEV
           - PROD
   
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,36 +32,40 @@ jobs:
           node-version: '21.5.0'
 
       - name: Install Dependencies
-        run: npm install --prefix env_test_app
+        working-directory: env_test_app
+        run: npm install
 
       - name: Echo TEST Value
+        working-directory: env_test_app
         run: echo "TEST value is ${{ vars.TEST }}"
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Build Project
-        run: npm run build --prefix env_test_app
+        working-directory: env_test_app
+        run: npm run build
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
   deploy_dev:
     runs-on: ubuntu-latest
     needs: build
-    if: ${{ github.event.inputs.Env == 'DEV' }}
+    # if: github.event_name == 'pull_request'
+    if: ${{ github.event.inputs.Env }}" == "DEV"
     environment: DEV  # This links the job to the DEV environment
     steps:
       - name: Echo TEST Value in DEV
         run: echo "Deploying to DEV environment with TEST value ${{ vars.TEST }}"
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Echo WEBSITE_ENV_DEV Value in DEV
-        run: echo "${{ vars.WEBSITE_ENV_DEV }}" > .env  
+        run: echo "${{vars.WEBSITE_ENV_DEV }}" > .env  
      
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -69,8 +74,9 @@ jobs:
         run: echo ${{ vars.GHCR_PAT }} | docker login ghcr.io --username ${{ vars.GHCR_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile --build-arg ENV_FILE=.env --load env_test_app
-
+        run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile --load 
+        ##run: docker buildx build --platform linux/amd64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile --build-arg ENV_FILE=.env env_test_app --load 
+     
       - name: Tag Docker image
         run: docker tag ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 ghcr.io/test_app:1.0.0
 
@@ -86,9 +92,9 @@ jobs:
       - name: Echo TEST Value in PROD
         run: echo "Deploying to PROD environment with TEST value ${{ vars.TEST }}"
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Deploy PROD
         run: echo 'Deploying to PROD environment'
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
