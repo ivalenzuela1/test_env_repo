@@ -18,6 +18,7 @@ export default function Chatbot() {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInput("");
 
+    //
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
