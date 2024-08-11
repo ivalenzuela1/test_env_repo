@@ -17,6 +17,7 @@ on:
         options:
           - DEV
           - PROD
+  
 
 jobs:
   build:
@@ -31,47 +32,44 @@ jobs:
           node-version: '21.5.0'
 
       - name: Install Dependencies
-        run: |
-          cd env_test_app
-          npm install
+        working-directory: env_test_app
+        run: npm install
 
       - name: Echo TEST Value
-        run: |
-          cd env_test_app
-          echo "TEST value is ${{ vars.TEST }}"
+        working-directory: env_test_app
+        run: echo "TEST value is ${{ vars.TEST }}"
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Build Project
-        run: |
-          cd env_test_app
-          npm run build
+        working-directory: env_test_app
+        run: npm run build
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
   deploy_dev:
     runs-on: ubuntu-latest
     needs: build
+    # if: github.event_name == 'pull_request'
     if: ${{ github.event.inputs.Env }}" == "DEV"
     environment: DEV  # This links the job to the DEV environment
     steps:
       - name: Echo TEST Value in DEV
         run: echo "Deploying to DEV environment with TEST value ${{ vars.TEST }}"
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Echo WEBSITE_ENV_DEV Value in DEV
-        run: echo "${{ vars.WEBSITE_ENV_DEV }}" > .env  
-
+        run: echo "${{vars.WEBSITE_ENV_DEV }}" > .env  
+     
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
         env:
-          TEST: ${{ vars.TEST }}
-
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
+  
       - name: Build the project
-        run: |
-          cd env_test_app
-          npm run build
+        working-directory: env_test_app
+        run: npm run build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -97,9 +95,9 @@ jobs:
       - name: Echo TEST Value in PROD
         run: echo "Deploying to PROD environment with TEST value ${{ vars.TEST }}"
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
       - name: Deploy PROD
         run: echo 'Deploying to PROD environment'
         env:
-          TEST: ${{ vars.TEST }}
+          TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
