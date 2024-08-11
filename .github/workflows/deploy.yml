@@ -66,10 +66,6 @@ jobs:
         run: echo 'Deploying to DEV environment'
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
-  
-      - name: Build the project
-        working-directory: env_test_app
-        run: npm run build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
