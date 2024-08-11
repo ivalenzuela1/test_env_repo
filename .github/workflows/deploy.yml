@@ -72,20 +72,17 @@ jobs:
 
       - name: Login to GitHub Container Registry
         run: echo ${{ vars.GHCR_PAT }} | docker login ghcr.io --username ${{ vars.GHCR_USERNAME }} --password-stdin
-
-      - name: Verify env_test_app Directory
-        run: ls -alh env_test_app
   
       - name: Build Docker image
         run: docker buildx build --platform linux/arm64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile . --load
         
         #run: docker buildx build --platform linux/arm64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile env_test_app --load
      
-      # - name: Tag Docker image
-      #   run: docker tag ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 ghcr.io/test_app:1.0.0
+      - name: Tag Docker image
+        run: docker tag ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 ghcr.io/test_app:1.0.0
 
-      # - name: Push Docker image
-      #   run: docker push ghcr.io/test_app:1.0.0
+      - name: Push Docker image
+        run: docker push ghcr.io/test_app:1.0.0
 
   deploy_prod:
     runs-on: ubuntu-latest
