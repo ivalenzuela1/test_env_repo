@@ -74,7 +74,7 @@ jobs:
         run: echo ${{ vars.GHCR_PAT }} | docker login ghcr.io --username ${{ vars.GHCR_USERNAME }} --password-stdin
   
       - name: Build Docker image
-        run: docker buildx build --platform linux/arm64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile . --load
+        run: docker buildx build --platform linux/arm64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f Dockerfile . --load
         
         #run: docker buildx build --platform linux/arm64 -t ghcr.io/${{ vars.GHCR_USERNAME }}/test_app:1.0.0 -f env_test_app/Dockerfile env_test_app --load
      
