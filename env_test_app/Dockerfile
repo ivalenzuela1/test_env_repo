@@ -9,9 +9,6 @@ ENV ENV_FILE=${ENV_FILE}
 # Set the working directory in the Docker container
 WORKDIR /app
 
-# Copy the environment file based on the build argument
-# COPY ${ENV_FILE} .env
-
 # Copy package.json and package-lock.json (or yarn.lock) to the working directory
 COPY package*.json ./
 
