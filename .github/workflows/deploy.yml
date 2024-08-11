@@ -31,15 +31,21 @@ jobs:
           node-version: '21.5.0'
 
       - name: Install Dependencies
-        run: npm install --prefix env_test_app
+        run: |
+          cd env_test_app
+          npm install
 
       - name: Echo TEST Value
-        run: echo "TEST value is ${{ vars.TEST }}"
+        run: |
+          cd env_test_app
+          echo "TEST value is ${{ vars.TEST }}"
         env:
           TEST: ${{ vars.TEST }}
 
       - name: Build Project
-        run: npm run build --prefix env_test_app
+        run: |
+          cd env_test_app
+          npm run build
         env:
           TEST: ${{ vars.TEST }}
 
@@ -63,7 +69,9 @@ jobs:
           TEST: ${{ vars.TEST }}
 
       - name: Build the project
-        run: npm run build --prefix env_test_app
+        run: |
+          cd env_test_app
+          npm run build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
