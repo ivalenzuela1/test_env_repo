@@ -62,13 +62,18 @@ jobs:
         env:
           TEST: ${{ vars.TEST }}  # Use this if TEST is a secret, otherwise use the environment variable directly
 
+      - name: Echo NEXT_PUBLIC_ENVIRONMENT Value in DEV
+        run: echo "Deploying to DEV environment with NEXT_PUBLIC_ENVIRONMENT value ${{ vars.NEXT_PUBLIC_ENVIRONMENT }}"
+        env:
+          NEXT_PUBLIC_ENVIRONMENT: ${{ env.NEXT_PUBLIC_ENVIRONMENT }}  # Use this if NEXT_PUBLIC_ENVIRONMENT is a secret, otherwise use the environment variable directly
+
       #- name: Echo WEBSITE_ENV_DEV Value in DEV
       #  run: echo "${{vars.WEBSITE_ENV_DEV }}" > .env  
 
       - name: Create .env File
         run: |
-          echo "NEXT_PUBLIC_GEMINI_API_KEY=${{ vars.NEXT_PUBLIC_GEMINI_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_ENVIRONMENT=DEV" >> .env
+          echo "NEXT_PUBLIC_GEMINI_API_KEY=${{ env.NEXT_PUBLIC_GEMINI_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_ENVIRONMENT=${{ env.NEXT_PUBLIC_ENVIRONMENT }}" >> .env
      
       - name: Deploy DEV
         run: echo 'Deploying to DEV environment'
