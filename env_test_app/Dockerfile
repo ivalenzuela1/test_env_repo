@@ -9,6 +9,9 @@ ENV ENV_FILE=${ENV_FILE}
 # Set the working directory in the Docker container
 WORKDIR /app
 
+# Copy the specified environment file into the container
+COPY ${ENV_FILE} .env
+
 # Copy package.json and package-lock.json (or yarn.lock) to the working directory
 COPY package*.json ./
 
@@ -18,8 +21,8 @@ RUN npm install
 # Copy the rest of the app's source code to the image filesystem.
 COPY . .
 
-# Build the Next.js app
-RUN npm run build
+# Load environment variables and build the Next.js app
+RUN . .env && npm run build
 
 # Expose the port the app runs on
 EXPOSE 3000
