@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import EnvironmentComponent from "./components/EnvironmentComponent";
 
 type Message = {
   type: "user" | "bot";
@@ -10,8 +11,6 @@ type Message = {
 export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-
-  const ENV = process.env.NEXT_PUBLIC_ENVIRONMENT as string;
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -36,7 +35,7 @@ export default function Chatbot() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md p-4 bg-white rounded shadow">
         <div>ChatBot App</div>
-        <div>Environment: {ENV}</div>
+        <EnvironmentComponent />
         <div className="h-64 overflow-y-auto mb-4">
           {messages.map((msg, index) => (
             <div
