@@ -10,7 +10,7 @@ ENV ENV_FILE=${ENV_FILE}
 WORKDIR /app
 
 # Copy the specified environment file into the container
-COPY ${ENV_FILE} .env.local
+COPY ${ENV_FILE} .env
 
 # Copy package.json and package-lock.json (or yarn.lock) to the working directory
 COPY package*.json ./
