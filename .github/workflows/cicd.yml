@@ -108,8 +108,8 @@ jobs:
 
       - name: Create .env File
         run: |
-          echo "NEXT_PUBLIC_GEMINI_API_KEY=${{ vars.NEXT_PUBLIC_GEMINI_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_ENVIRONMENT=PROD" >> .env
+          echo "NEXT_PUBLIC_GEMINI_API_KEY=${{ vars.NEXT_PUBLIC_GEMINI_API_KEY }}" >> env_test_app/.env
+          echo "NEXT_PUBLIC_ENVIRONMENT=${{ vars.NEXT_PUBLIC_ENVIRONMENT }}" >> env_test_app/.env
      
       - name: Deploy PROD
         run: echo 'Deploying to PROD environment'
